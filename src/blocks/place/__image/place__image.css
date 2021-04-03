@@ -1,0 +1,9 @@
+.place__image {
+	width: 282px;
+	min-height: 282px;
+	max-height: 282px;
+	object-fit: cover;
+	vertical-align: bottom;
+	border-radius: 10px 10px 0 0;
+	cursor: pointer;
+}

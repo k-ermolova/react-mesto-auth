@@ -1,0 +1,7 @@
+.place__like {
+  display: flex;
+  flex-direction: column;
+  width: 22px;
+  height: 35px;
+  margin: 0 20px 0 0;
+}

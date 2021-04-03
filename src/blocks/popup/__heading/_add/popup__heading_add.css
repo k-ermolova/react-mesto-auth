@@ -1,0 +1,5 @@
+@media screen and (max-width: 550px) {
+	.popup__heading_add {
+		padding: 30px 35px 36px 0;
+	}
+}
