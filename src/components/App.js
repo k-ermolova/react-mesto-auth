@@ -9,6 +9,7 @@ import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
 import ConfirmationPopup from './ConfirmationPopup.js';
+import { Route, Switch } from "react-router-dom";
 
 function App() {
 	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -119,43 +120,48 @@ function App() {
 	}
 
 	return (
-		<div className="App">
-			<CurrentUserContext.Provider value={currentUser}>
-				<Header />
-				<Main
-					onEditProfile={handleEditProfileClick}
-					onAddPlace={handleAddPlaceClick}
-					onEditAvatar={handleEditAvatarClick}
-					onCardClick={handleCardClick}
-					onCardLike={handleCardLike}
-					onCardDelete={handleCardDelete}
-					cards={cards}
-				/>
-				<Footer />
+		<Switch>
+			<Route path="/sign-up"></Route>
+			<Route path="/sign-in"></Route>
+			<div className="App">
+				<CurrentUserContext.Provider value={currentUser}>
+					<Header />
+					<Main
+						onEditProfile={handleEditProfileClick}
+						onAddPlace={handleAddPlaceClick}
+						onEditAvatar={handleEditAvatarClick}
+						onCardClick={handleCardClick}
+						onCardLike={handleCardLike}
+						onCardDelete={handleCardDelete}
+						cards={cards}
+					/>
+					<Footer />
 
-				<EditProfilePopup
-					isOpen={isEditProfilePopupOpen}
-					onClose={closeAllPopups}
-					onUpdateUser={handleUpdateUser}
-				/>
+					<EditProfilePopup
+						isOpen={isEditProfilePopupOpen}
+						onClose={closeAllPopups}
+						onUpdateUser={handleUpdateUser}
+					/>
 
-				<AddPlacePopup
-					isOpen={isAddPlacePopupOpen}
-					onClose={closeAllPopups}
-					onAddPlace={handleAddPlaceSubmit}
-				/>
+					<AddPlacePopup
+						isOpen={isAddPlacePopupOpen}
+						onClose={closeAllPopups}
+						onAddPlace={handleAddPlaceSubmit}
+					/>
 
-				<EditAvatarPopup
-					isOpen={isEditAvatarPopupOpen}
-					onClose={closeAllPopups}
-					onUpdateAvatar={handleUpdateAvatar}
-				/>
+					<EditAvatarPopup
+						isOpen={isEditAvatarPopupOpen}
+						onClose={closeAllPopups}
+						onUpdateAvatar={handleUpdateAvatar}
+					/>
 
-				<ConfirmationPopup />
+					<ConfirmationPopup />
 
-				<ImagePopup card={selectedCard || false} isOpen={isImagePopupOpen} onClose={closeAllPopups} />
-			</CurrentUserContext.Provider>
-		</div>
+					<ImagePopup card={selectedCard || false} isOpen={isImagePopupOpen} onClose={closeAllPopups} />
+				</CurrentUserContext.Provider>
+			</div>
+		</Switch>
+
 	);
 }
 
