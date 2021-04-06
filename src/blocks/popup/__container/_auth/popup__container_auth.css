@@ -1,0 +1,5 @@
+.popup__container_auth {
+  display: flex;
+  flex-direction: column;
+  width: 430px;
+}

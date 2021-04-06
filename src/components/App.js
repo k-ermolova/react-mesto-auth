@@ -10,6 +10,10 @@ import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
 import ConfirmationPopup from './ConfirmationPopup.js';
 import { Route, Switch } from "react-router-dom";
+import Register from './Register.js';
+import Login from './Login.js';
+import InfoToolTip from './InfoToolTip.js';
+import ProtectedRoute from './ProtectedRoute.js';
 
 function App() {
 	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -120,13 +124,30 @@ function App() {
 	}
 
 	return (
-		<Switch>
-			<Route path="/sign-up"></Route>
-			<Route path="/sign-in"></Route>
-			<div className="App">
-				<CurrentUserContext.Provider value={currentUser}>
-					<Header />
-					<Main
+		<CurrentUserContext.Provider value={currentUser}>
+		<Header />
+			<Switch>
+				<ProtectedRoute 
+						path="/" 
+						loggedIn={false} 
+						component={Main} 
+						onEditProfile={handleEditProfileClick}
+						onAddPlace={handleAddPlaceClick}
+						onEditAvatar={handleEditAvatarClick}
+						onCardClick={handleCardClick}
+						onCardLike={handleCardLike}
+						onCardDelete={handleCardDelete}
+						cards={cards}/>
+				<ProtectedRoute path="/" loggedIn={false} component={Footer} />
+				<Route path="/sign-up">
+					<Register />
+				</Route>
+				<Route path="/sign-in">
+					<Login />
+				</Route>
+				</Switch>
+					<InfoToolTip />
+					{/* <Main
 						onEditProfile={handleEditProfileClick}
 						onAddPlace={handleAddPlaceClick}
 						onEditAvatar={handleEditAvatarClick}
@@ -135,7 +156,7 @@ function App() {
 						onCardDelete={handleCardDelete}
 						cards={cards}
 					/>
-					<Footer />
+					<Footer /> */}
 
 					<EditProfilePopup
 						isOpen={isEditProfilePopupOpen}
@@ -159,8 +180,6 @@ function App() {
 
 					<ImagePopup card={selectedCard || false} isOpen={isImagePopupOpen} onClose={closeAllPopups} />
 				</CurrentUserContext.Provider>
-			</div>
-		</Switch>
 
 	);
 }

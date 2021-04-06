@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import headerLogo from '../images/header__logo.svg';
 
 function Header() {
@@ -8,6 +9,7 @@ function Header() {
 				src={headerLogo}
 				alt="Место Россия"
 			/>
+			<Link to='/sing-in' className="header__link">Войти</Link>
 		</header>
 	);
 }

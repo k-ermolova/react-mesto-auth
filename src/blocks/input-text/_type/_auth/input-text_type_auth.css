@@ -1,0 +1,9 @@
+.input-text_type_auth {
+  background-color: #000;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 30px;
+}
+
+.input-text_type_auth::placeholder {
+  color: #ccc;
+}
