@@ -2,20 +2,14 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import headerLogo from '../images/header__logo.svg';
 
 function Header(props) {
-	const history = useHistory();
 	const location = useLocation();
-
-	function signOut() {
-		localStorage.removeItem('jwt');
-		history.push('/sign-in');
-	}
 
 	function setPageView(location) {
 		if (location.pathname === "/") {
 			return (
 				props.loggedIn && (<div className="header__navbar">
-					<span className="header__email">{props.userData}</span>
-					<Link to="/sign-in" className="header__link" onClick={signOut}>Выйти</Link>
+					<span className="header__email">{props.email}</span>
+					<Link to="/sign-in" className="header__link" onClick={props.onSignOut}>Выйти</Link>
 				</div>)
 			)
 		} else if (location.pathname === "/sign-in") {

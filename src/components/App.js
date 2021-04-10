@@ -30,7 +30,7 @@ function App() {
 	const history = useHistory();
 	const [isError, setIsError] = useState(false);
 	const [isOk, setIsOk] = useState(false);
-	const [userData, setUserData] = useState([]);
+	const [email, setEmail] = useState([]);
 
 
 	function tokenCheck() {
@@ -38,7 +38,7 @@ function App() {
 			let jwt = localStorage.getItem("jwt");
 			auth.getContent(jwt).then((res) => {
 				setLoggedIn(true);
-				setUserData(res.data.email);
+				setEmail(res.data.email);
 			});
 		}
 	}
@@ -71,6 +71,11 @@ function App() {
 				return res;
 			})
 			.catch();
+	}
+
+	function handleSignOut() {
+		localStorage.removeItem('jwt');
+		history.push('/sign-in');
 	}
 
 	function handleError() {
@@ -184,8 +189,10 @@ function App() {
 
 	return (
 		<CurrentUserContext.Provider value={currentUser}>
-			<Header loggedIn={loggedIn}
-				userData={userData}
+			<Header 
+				loggedIn={loggedIn}
+				email={email}
+				onSignOut={handleSignOut}
 			/>
 			<Switch>
 				<Route path="/sign-up">
