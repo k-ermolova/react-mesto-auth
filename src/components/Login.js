@@ -15,11 +15,9 @@ function Login(props) {
   }
 
   function handleSubmit(e) {
-    let { password, email } = userData;
+    const { password, email } = userData;
     e.preventDefault();
-    props.onLogin({ password, email }).catch(
-      () => props.onError(true)
-    )
+    props.onLogin({ password, email });
   }
 
   return (

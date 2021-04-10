@@ -17,18 +17,9 @@ function Register(props) {
   }
 
   function handleSubmit(e) {
-    let { password, email } = userData;
+    const { password, email } = userData;
     e.preventDefault();
-    props.onRegister({ password, email })
-      .then(() => {
-        props.onSuccess(true);
-        history.push("/sign-in")
-        return;
-      }
-      )
-      .catch(
-        () => props.onError(true)
-      )
+    props.onRegister({ password, email });
   }
 
 

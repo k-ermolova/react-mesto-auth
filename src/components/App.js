@@ -14,7 +14,7 @@ import Register from "./Register.js";
 import Login from "./Login.js";
 import InfoTooltip from "./InfoTooltip.js";
 import ProtectedRoute from "./ProtectedRoute.js";
-import * as auth from "./Auth.js";
+import * as auth from "../utils/auth.js";
 
 function App() {
 	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -35,9 +35,13 @@ function App() {
 	function tokenCheck() {
 		if (localStorage.getItem("jwt")) {
 			let jwt = localStorage.getItem("jwt");
-			auth.getContent(jwt).then(() => {
-				setLoggedIn(true);
-			});
+			auth
+				.getContent(jwt)
+				.then((res) => {
+					setLoggedIn(true);
+					setEmail(res.data.email);
+				})
+				.catch((err) => console.log(err));
 		}
 	}
 
@@ -64,22 +68,32 @@ function App() {
 			})
 			.then(() => {
 				history.push("/");
-				setEmail(email);
-			});
+			})
+			.catch(
+				() => setIsError(true)
+			);
 	}
 
 	function handleRegister({ password, email }) {
 		return auth
 			.register({ password, email })
-			.then((res) => {
-				return res;
-			})
-			.catch();
+			.then(
+				() => {
+					setIsOk(true);
+					history.push("/sign-in")
+					return;
+				}
+			)
+			.catch(
+				() => setIsError(true)
+			);
 	}
 
 	function handleSignOut() {
 		localStorage.removeItem("jwt");
 		history.push("/sign-in");
+		setLoggedIn(false);
+		setEmail('');
 	}
 
 	function handleError() {
@@ -198,13 +212,11 @@ function App() {
 				<Route path="/sign-up">
 					<Register
 						onRegister={handleRegister}
-						onError={setIsError}
-						onSuccess={setIsOk}
 					/>
 				</Route>
 
 				<Route path="/sign-in">
-					<Login onLogin={handleLogin} onError={setIsError} />
+					<Login onLogin={handleLogin} />
 				</Route>
 
 				<ProtectedRoute
