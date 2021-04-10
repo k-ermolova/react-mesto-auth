@@ -1,17 +1,49 @@
-const { Link } = require("react-router-dom");
+import { Link, useHistory } from 'react-router-dom';
+import { useState } from "react";
 
-function Register() {
+function Register(props) {
+  const history = useHistory();
+  const [userData, setUserData] = useState({
+    email: '',
+    password: ''
+  });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
+      [name]: value
+    });
+  }
+
+  function handleSubmit(e) {
+    let { password, email } = userData;
+    e.preventDefault();
+    props.onRegister({ password, email })
+      .then(() => {
+        props.onSuccess(true);
+        history.push("/sign-in")
+        return;
+      }
+      )
+      .catch(
+        () => props.onError(true)
+      )
+  }
+
+
   return (
-    <form className="form content__auth">
+    <form className="form content__auth" onSubmit={handleSubmit}>
       <p className="form__title">Регистрация</p>
       <fieldset className="form__field">
         <input
           type="email"
           className="input-text input-text_type_auth"
           placeholder="Email"
-          name="e-mail"
+          name="email"
           required
-          value={''}
+          value={userData.email}
+          onChange={handleChange}
         />
         <input
           type="password"
@@ -19,7 +51,8 @@ function Register() {
           placeholder="Пароль"
           name="password"
           required
-          value={''}
+          value={userData.password}
+          onChange={handleChange}
         />
       </fieldset>
       <button className="form__button" type="submit">Зарегистрироваться</button>

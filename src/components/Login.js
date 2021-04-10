@@ -1,17 +1,39 @@
-const { Link } = require("react-router-dom");
+import { useState } from "react";
 
-function Login() {
+function Login(props) {
+  const [userData, setUserData] = useState({
+    email: '',
+    password: ''
+  });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
+      [name]: value
+    });
+  }
+
+  function handleSubmit(e) {
+    let { password, email } = userData;
+    e.preventDefault();
+    props.onLogin({ password, email }).catch(
+      () => props.onError(true)
+    )
+  }
+
   return (
-    <form className="form content__auth">
+    <form className="form content__auth" onSubmit={handleSubmit}>
       <p className="form__title">Вход</p>
       <fieldset className="form__field">
         <input
           type="email"
           className="input-text input-text_type_auth"
           placeholder="Email"
-          name="e-mail"
+          name="email"
           required
-          value={''}
+          value={userData.email}
+          onChange={handleChange}
         />
         <input
           type="password"
@@ -19,7 +41,8 @@ function Login() {
           placeholder="Пароль"
           name="password"
           required
-          value={''}
+          value={userData.password}
+          onChange={handleChange}
         />
       </fieldset>
       <button className="form__button" type="submit">Войти</button>

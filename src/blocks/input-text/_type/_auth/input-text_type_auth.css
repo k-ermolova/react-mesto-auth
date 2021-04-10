@@ -2,6 +2,7 @@
   background-color: #000;
   border-bottom: 1px solid #ccc;
   margin-bottom: 30px;
+  color: #fff;
 }
 
 .input-text_type_auth::placeholder {
