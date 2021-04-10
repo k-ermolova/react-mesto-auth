@@ -1,8 +1,7 @@
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from "react";
 
 function Register(props) {
-  const history = useHistory();
   const [userData, setUserData] = useState({
     email: '',
     password: ''
