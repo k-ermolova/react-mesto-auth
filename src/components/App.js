@@ -32,13 +32,11 @@ function App() {
 	const [isOk, setIsOk] = useState(false);
 	const [email, setEmail] = useState([]);
 
-
 	function tokenCheck() {
 		if (localStorage.getItem("jwt")) {
 			let jwt = localStorage.getItem("jwt");
-			auth.getContent(jwt).then((res) => {
+			auth.getContent(jwt).then(() => {
 				setLoggedIn(true);
-				setEmail(res.data.email);
 			});
 		}
 	}
@@ -54,14 +52,20 @@ function App() {
 	}, [loggedIn, history]);
 
 	function handleLogin({ email, password }) {
-		return auth.authorize(email, password).then((data) => {
-			if (data.token) {
-				setLoggedIn(true);
-				localStorage.setItem("jwt", data.token);
+		return auth
+			.authorize(email, password)
+			.then((data) => {
+				if (data.token) {
+					setLoggedIn(true);
+					localStorage.setItem("jwt", data.token);
+					history.push("/");
+					return;
+				}
+			})
+			.then(() => {
 				history.push("/");
-				return;
-			}
-		}).then(() => history.push("/"));
+				setEmail(email);
+			});
 	}
 
 	function handleRegister({ password, email }) {
@@ -74,8 +78,8 @@ function App() {
 	}
 
 	function handleSignOut() {
-		localStorage.removeItem('jwt');
-		history.push('/sign-in');
+		localStorage.removeItem("jwt");
+		history.push("/sign-in");
 	}
 
 	function handleError() {
@@ -189,11 +193,7 @@ function App() {
 
 	return (
 		<CurrentUserContext.Provider value={currentUser}>
-			<Header 
-				loggedIn={loggedIn}
-				email={email}
-				onSignOut={handleSignOut}
-			/>
+			<Header loggedIn={loggedIn} email={email} onSignOut={handleSignOut} />
 			<Switch>
 				<Route path="/sign-up">
 					<Register
@@ -208,7 +208,8 @@ function App() {
 				</Route>
 
 				<ProtectedRoute
-					exact path="/"
+					exact
+					path="/"
 					loggedIn={loggedIn}
 					component={Main}
 					onEditProfile={handleEditProfileClick}
@@ -223,7 +224,6 @@ function App() {
 				<Route>
 					{loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
 				</Route>
-
 			</Switch>
 
 			<InfoTooltip

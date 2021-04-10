@@ -1,4 +1,4 @@
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import headerLogo from '../images/header__logo.svg';
 
 function Header(props) {
