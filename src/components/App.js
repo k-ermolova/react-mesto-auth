@@ -68,6 +68,7 @@ function App() {
 			})
 			.then(() => {
 				history.push("/");
+				setEmail(email);
 			})
 			.catch(
 				() => setIsError(true)
