@@ -1,3 +1,10 @@
 .header__email {
   margin-right: 24px;
 }
+
+@media screen and (max-width: 555px) {
+  .header__email {
+    font-size: 14px;
+    margin-right: 12px;
+  }
+}

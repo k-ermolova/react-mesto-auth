@@ -1,11 +1,23 @@
 .header__link {
-  text-decoration: none;
-  color: #fff;
-  font-size: 18px;
-  align-self: center;
+	text-decoration: none;
+	color: #fff;
+	font-size: 18px;
+	align-self: center;
 }
 
 .header__link:hover {
-  opacity: 0.6;
+	opacity: 0.6;
 	transition: opacity 0.3s ease;
+}
+
+@media screen and (max-width: 1023px) {
+	.header__link {
+		margin-right: 27px;
+	}
+}
+
+@media screen and (max-width: 555px) {
+  .header__link {
+    font-size: 14px;
+  }
 }

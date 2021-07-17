@@ -32,14 +32,25 @@ function App() {
 	const [isOk, setIsOk] = useState(false);
 	const [email, setEmail] = useState([]);
 
+	useEffect(() => {
+		if (loggedIn) {
+			Promise.all([api.getUserInfo(), api.getInitialCards()])
+				.then(([userData, cards]) => {
+					setCurrentUser(userData);
+					setCards(cards);
+				})
+				.catch(err => console.log(err));
+		}
+	}, [loggedIn]);
+
 	function tokenCheck() {
 		if (localStorage.getItem("jwt")) {
-			let jwt = localStorage.getItem("jwt");
+			const jwt = localStorage.getItem("jwt");
 			auth
 				.getContent(jwt)
 				.then((res) => {
 					setLoggedIn(true);
-					setEmail(res.data.email);
+					setEmail(res.email);
 				})
 				.catch((err) => console.log(err));
 		}
@@ -63,12 +74,9 @@ function App() {
 					setLoggedIn(true);
 					localStorage.setItem("jwt", data.token);
 					history.push("/");
+					setEmail(email);
 					return;
 				}
-			})
-			.then(() => {
-				history.push("/");
-				setEmail(email);
 			})
 			.catch(
 				() => setIsError(true)
@@ -105,22 +113,6 @@ function App() {
 		setIsOk(false);
 		history.push("/sign-in");
 	}
-
-	useEffect(() => {
-		api
-			.getUserInfo()
-			.then((userData) => {
-				setCurrentUser(userData);
-			})
-			.catch((err) => console.log(err));
-	}, []);
-
-	useEffect(() => {
-		api
-			.getInitialCards()
-			.then((cards) => setCards(cards))
-			.catch((err) => console.log(err));
-	}, []);
 
 	function handleEditProfileClick() {
 		setIsEditProfilePopupOpen(true);
@@ -160,7 +152,7 @@ function App() {
 	}
 
 	function handleCardLike(card) {
-		const isLiked = card.likes.some((i) => i._id === currentUser._id);
+		const isLiked = card.likes.some((i) => i === currentUser._id);
 		if (!isLiked) {
 			api
 				.putLike(card._id, !isLiked)

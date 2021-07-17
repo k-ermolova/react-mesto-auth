@@ -1,9 +1,10 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'https://api.mesto-ermolova.nomoredomains.monster';
 
 export const register = ({ password, email }) => {
-  return fetch(`${BASE_URL}/signup`, {
+  return fetch(`${BASE_URL}/sign-up`, {
     method: 'POST',
     headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ password, email })
@@ -12,10 +13,11 @@ export const register = ({ password, email }) => {
 };
 
 export const authorize = (email, password) => {
-  return fetch(`${BASE_URL}/signin`, {
+  return fetch(`${BASE_URL}/sign-in`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password })
   })
@@ -26,6 +28,7 @@ export const getContent = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
     }

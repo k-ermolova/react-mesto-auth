@@ -1,7 +1,6 @@
 class Api {
   constructor(options) {
     this._url = options.baseUrl;
-    this._headers = options.headers;
   }
 
   _onError(res) {
@@ -14,20 +13,29 @@ class Api {
 
   getUserInfo() {
     return fetch(`${this._url}users/me`, {
-      headers: this._headers,
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
     }).then(this._onError);
   }
 
   getInitialCards() {
     return fetch(`${this._url}cards`, {
-      headers: this._headers,
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
     }).then(this._onError);
   }
 
   updateAvatar(data) {
     return fetch(`${this._url}users/me/avatar`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
       body: JSON.stringify({
         avatar: data.avatar,
       }),
@@ -37,7 +45,10 @@ class Api {
   updateUserInfo(data) {
     return fetch(`${this._url}users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -48,7 +59,10 @@ class Api {
   addNewCard(data) {
     return fetch(`${this._url}cards`, {
       method: "POST",
-      headers: this._headers,
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
       body: JSON.stringify({
         name: data.name,
         link: data.link,
@@ -59,29 +73,34 @@ class Api {
   deleteCard(id) {
     return fetch(`${this._url}cards/${id}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
     }).then(this._onError);
   }
 
   putLike(id) {
-    return fetch(`${this._url}cards/likes/${id}`, {
+    return fetch(`${this._url}cards/${id}/likes`, {
       method: "PUT",
-      headers: this._headers,
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
     }).then(this._onError);
   }
 
   deleteLike(id) {
-    return fetch(`${this._url}cards/likes/${id}`, {
+    return fetch(`${this._url}cards/${id}/likes`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
     }).then(this._onError);
   }
 }
 
 export default new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-20/",
-  headers: {
-    "content-type": "application/json",
-    authorization: "0949ddb6-de07-424c-aec4-470c89dc006f",
-  },
+  baseUrl: "https://api.mesto-ermolova.nomoredomains.monster/",
 });
