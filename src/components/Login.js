@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+
 function Login(props) {
   const [userData, setUserData] = useState({
     email: '',
@@ -44,6 +45,9 @@ function Login(props) {
         />
       </fieldset>
       <button className="form__button" type="submit">Войти</button>
+      <p className="form__question">Первый раз здесь?&nbsp;
+        <Link to="/sign-up" className="form__link">Зарегистрироваться</Link>
+      </p>
     </form>
   );
 }
